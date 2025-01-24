@@ -78,3 +78,26 @@ SELECT * FROM tbl_menu
 -- 메뉴 가격이 5000원 이고 카테고리 코드가 10 이며 메뉴 이름에 갈치가 들어가는 메뉴의 모든 컬럼 값 조회
 SELECT * FROM tbl_menu
 	WHERE menu_price>5000 AND category_code = 10 AND menu_name LIKE '%갈치%';
+	
+-- 5. in 연산자
+SELECT * FROM tbl_menu
+	WHERE category_code=4
+	OR category_code=5
+	OR category_code=6
+	ORDER BY category_code;
+	
+SELECT * FROM tbl_menu
+	WHERE category_code IN (4,5,6)
+	ORDER BY category_code;
+	
+SELECT * FROM tbl_menu
+	WHERE category_code NOT IN (4,5,6)
+	ORDER BY category_code;
+	
+-- 6. is null : null 값 비교
+SELECT * FROM tbl_category
+	WHERE ref_category_code IS NULL;
+	
+-- not 연산자 사용
+SELECT * FROM tbl_category
+	WHERE ref_category_code IS NOT NULL;
