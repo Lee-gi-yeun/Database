@@ -60,3 +60,19 @@ SELECT a.EMP_NAME 관리자명
 	FROM employee a
 	RIGHT JOIN employee b ON a.EMP_ID = b.MANAGER_ID;
 	
+-- employeedb 에서 다중 테이블join 사원명, 부서명, 직급명 조회
+SELECT emp_name 
+	, dept_title 
+	, job_name 
+	FROM employee a
+	LEFT JOIN department b ON a.dept_code = b.dept_id
+	JOIN job c ON a.JOB_CODE = c.JOB_CODE;
+	
+-- 사원명, 근무 지역명, 근무 국가명 조회
+SELECT emp_name, local_name, national_name
+	FROM employee a
+	LEFT JOIN department b ON a.dept_code = b.dept_id
+	LEFT JOIN location c ON b.location_id = c.local_code
+	LEFT JOIN national d ON c.national_code = d.national_code;
+	
+	
