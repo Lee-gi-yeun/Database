@@ -72,6 +72,7 @@ DROP TABLE if EXISTS tb,tb2,tb3;
 SHOW TABLES;
 
 -- (4) trancate : 논리적으로는 delete 구문과 차이가 없어보이지만 drop 이후 테이블을 재생성해주는 구문이다.
+-- delete from 테이블로 모든행을 제거하는 것보다 성능적으로 빠름
 TRUNCATE tb;
 
 SELECT * FROM tb;
