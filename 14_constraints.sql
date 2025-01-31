@@ -65,3 +65,52 @@ INSERT INTO user_foreignkey
 -- insert 테스트 (fk 제약 조건) null 값은 입력 가능함
 INSERT INTO user_foreignkey
 	VALUES (2,'user01', 'pass01', '홍길동', '남', '010-1111-1111','h@gmail.com',NULL);
+
+-- 부모 테이블에서 참조 되고 있는 행을 delete
+-- 현재 삭제룰이 삭제 불가로 되어 있어서 삭제할 수 없음
+DELETE FROM user_grade WHERE grade_code=20;
+
+-- fk 테이블(삭제룰 변경)
+CREATE TABLE if NOT EXISTS user_foreignkey2( user_no INT, 
+user_id VARCHAR(255) NOT NULL, user_pwd VARCHAR(255) NOT NULL, 
+user_name VARCHAR(255) NOT NULL, gender VARCHAR(3), phone VARCHAR(255) NOT NULL, email VARCHAR(255),
+grade_code INT, PRIMARY KEY(user_no), FOREIGN KEY(grade_code) REFERENCES user_grade(grade_code) 
+-- 삭제룰 생략 시 삭제 불가
+	ON UPDATE SET NULL ON DELETE SET NULL);	
+   -- : 수정 및 삭제 시 null 값으로 변경
+	-- on update set cascade on delete set cascade
+	-- : 수정 및 삭제 시 함께 삭제
+
+-- insert 테스트 (정상 수행)
+SHOW TABLES;
+INSERT INTO user_foreignkey2
+	VALUES (1,'user01', 'pass01', '홍길동', '남', '010-1111-1111','h@gmail.com',20);
+-- insert 테스트 (fk 제약 조건) null 값은 입력 가능함
+INSERT INTO user_foreignkey2
+	VALUES (5,'user01', 'pass01', '홍길동', '남', '010-1111-1111','h@gmail.com',40);
+INSERT INTO user_foreignkey2
+	VALUES (4,'user01', 'pass01', '홍길동', '남', '010-1111-1111','h@gmail.com',null);
+	
+	SELECT * FROM user_foreignkey2;
+	
+-- (5) check 제약 조건
+CREATE TABLE if NOT EXISTS user_check(user_no INT AUTO_INCREMENT PRIMARY KEY, user_name VARCHAR(255) NOT NULL, 
+gender VARCHAR(3) CHECK (gender IN('남','여')), age INT CHECK(age >=19));
+
+-- insert 테스트(정상 수행)
+INSERT INTO user_check 
+	VALUES (null,'홍길동','남',20);
+-- insert 테스트(check 제약조건 위반)
+INSERT INTO user_check 
+	VALUES (null,'홍길동','남자',16);
+	
+
+-- (6) default : 컬럼에 null 값 대신 기본 값 적용 가능
+CREATE TABLE if NOT EXISTS tbl_country(country_code INT AUTO_INCREMENT PRIMARY KEY, country_name VARCHAR(255) DEFAULT '한국',
+population VARCHAR(255) DEFAULT '0명', add_day DATE DEFAULT (CURRENT_DATE), add_time DATETIME DEFAULT (CURRENT_TIME));
+
+INSERT INTO tbl_country
+	VALUES (NULL,DEFAULT,DEFAULT,DEFAULT,DEFAULT);
+
+SELECT * FROM tbl_country;
+	
