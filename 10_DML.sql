@@ -9,3 +9,59 @@ INSERT
 VALUES (NULL, '바나나해장국',8500,4,'Y');
 
 SELECT * FROM tbl_menu;
+-- insert 시 null 허용 가능 컬럽 or auto_increment 등 기본 값이 존재하는 컬럼은 제외하고 컬럼을 지정해서 삽입할 수 있다.
+INSERT
+	INTO tbl_menu(menu_name, menu_price, category_code, orderable_status)
+	VALUES ('초콜릿죽',6500, 7, 'Y');
+	
+-- 컬럼을 명시적으로 작성했을 경우 순서 병견이 가능하다
+INSERT
+	INTO tbl_menu(menu_price, menu_name, orderable_status,category_code)
+	VALUES (7000,'파인애플탕', 'Y', 4);
+	
+-- multi insert
+INSERT 
+	INTO tbl_menu
+	VALUES (NULL, '참치맛아이스크림',1700,12,'Y'),
+			 (NULL, '멸치맛아이스크림',1700,12,'Y'),
+			 (NULL, '고등어맛아이스크림',1700,12,'Y');
+
+
+-- (2) update : 테이블에 기록 된 컬럼의 값을 수정
+-- 0~n개의 행이 업데이트 되며 테이블 전체 행의 수는 변화 없음
+UPDATE tbl_menu
+	SET category_code=7,menu_name='딸기맛붕어빵'
+	WHERE menu_code=24;
+
+-- subquery를 update 절에 활용할 수 있다.
+UPDATE tbl_menu
+	SET category_code=6
+	WHERE menu_code = (SELECT menu_code
+								FROM tbl_menu
+								WHERE menu_name='초콜릿죽');
+								
+								
+-- (3) delete : 테이블의 행을 삭제한느 구문
+
+-- where절을 이용한 삭제
+DELETE FROM tbl_menu
+	WHERE menu_code=24;
+	
+-- linit을 활용한 삭제 (offset 지정은 불가)
+DELETE FROM tbl_menu
+	ORDER BY menu_price
+	LIMIT 2;
+	
+-- delete의 조건 없이 삭제 (모든 행 삭제)
+DELETE FROM tbl_menu
+	WHERE 1=1;
+	
+SELECT * FROM tbl_menu;
+
+-- (4) replace : 중복 된 데이터를 덮어 쓸 수 있다.
+REPLACE INTO tbl_menu
+	VALUES(17,'참기름소주',5000,10,'Y');
+	
+-- where 절 없이 update 가능 
+REPLACE tbl_menu
+	SET menu_code=2, menu_name='우럭쥬스',menu_price=1000, category_code=9, orderable_status='N';
