@@ -138,4 +138,17 @@ SELECT DATE(NOW()), TIME(NOW());
 SELECT DATEDIFF('2023-05-31', '2023-02-27'),
 		 TIMEDIFF('17:07:11', '13:06:10');
 		 
--- 
+-- dayofweek, monthname, dayofyear
+SELECT DAYOFWEEK(CURDATE()), MONTHNAME(CURDATE()), DAYOFYEAR(CURDATE());
+
+-- last_day
+SELECT LAST_DAY('2023-02-01');
+
+-- makedate, maketime
+SELECT MAKEDATE(2023, 32), MAKETIME(17,03,02);
+
+-- quarter
+SELECT QUARTER('2023-02-01');
+
+-- time_to_sec
+SELECT TIME_TO_SEC('1:1:1');
