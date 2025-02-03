@@ -54,3 +54,88 @@ SELECT LTRIM('  왼쪽  '),RTRIM('  오른쪽  ');
 -- trim
 -- both, leading, trailing : 공백 제거 leading : 왼쪽 공백 제거, trailing : 오른쪽 공백 제거
 SELECT TRIM('   mariadb   '), TRIM(BOTH '@' FROM '@@@mariadb@@@');
+
+-- repeat
+SELECT repeat('재밌어', 3);
+
+-- replace
+SELECT REPLACE('마리아db', '마리아', 'maria');
+
+-- reverse
+SELECT REVERSE('hello');
+
+-- space
+SELECT CONCAT('제 이름은', SPACE(5), '이고 나이는', SPACE(3), '세 입니다.');
+
+-- substring : 문자열 자르기
+SELECT SUBSTRING('안녕하세요 반갑습니다.', 7, 2),
+		 SUBSTRING('안녕하세요 반갑습니다.', 7);
+		 
+-- substring_index : 특정 문자열을 기준(횟수)으로 문자열을 자름 
+SELECT SUBSTRING_INDEX('hong.test@gmail.com', '.' , 2),
+		 SUBSTRING_INDEX('hong.test@gmail.com', '.', -2);
+		 
+		 
+-- (2) 숫자 관련 함수
+		 
+-- abs : 절댓값 반환
+SELECT ABS(-123);
+
+-- ceiling, floor, round : 올림, 내림, 반올림
+SELECT CEILING(1234.56), FLOOR(1234.56), ROUND(1234.56);
+
+-- conv : (변환대상숫자, 원래진수, 변환할진수)
+SELECT CONV('A', 16, 10), CONV('A', 16, 2), CONV(1010, 2, 8);
+
+-- mod
+SELECT MOD(75, 10), 75 % 10, 75 MOD 10;
+
+-- pow, sqrt : 거듭제곱, 제곱근
+SELECT POW(2, 4), SQRT(16);
+
+-- rand : 0 이상 1 미만의 임의의 실수 반환
+SELECT RAND();
+-- m < 임의의 정수 <= n 을 구하고 싶다면 FLOOR(RAND() * (n - m) + m)
+SELECT FLOOR(RAND() * (11 - 1) + 1);
+
+-- sign : 부호 판단(양수, 0, 음수)
+SELECT SIGN(10.1), SIGN(0), SIGN(-10.1);
+
+-- truncate
+SELECT TRUNCATE(12345.12345, 2), TRUNCATE(12345.12345, -2);
+
+
+-- (3) 날짜/시간 관련 함수
+
+-- adddate, subdate
+SELECT 
+	ADDDATE('2023-05-31', INTERVAL 30 DAY),
+	ADDDATE('2023-05-31', INTERVAL 6 MONTH),
+	ADDDATE('2023-05-31', INTERVAL 1 YEAR),
+	SUBDATE('2023-05-31', INTERVAL 30 DAY),
+	SUBDATE('2023-05-31', INTERVAL 6 MONTH),
+	SUBDATE('2023-05-31', INTERVAL 1 YEAR);
+	
+-- addtime, subtime
+SELECT 
+	ADDTIME('2023-05-31 09:00:00', '1:0:1'),
+	SUBTIME('2023-05-31 09:00:00', '1:0:1');
+	
+-- 현재 시스템 날짜/시간 반환
+SELECT CURDATE(), CURRENT_DATE(), CURRENT_DATE;
+SELECT CURTIME(3), CURRENT_TIME(), CURRENT_TIME;
+SELECT NOW(), LOCALTIME(), LOCALTIME, LOCALTIMESTAMP, LOCALTIMESTAMP();
+
+-- year, month, dayofmonth
+SELECT YEAR(CURDATE()), MONTH(CURDATE()), DAYOFMONTH(CURDATE());
+-- hour, minute, second, microsecond
+SELECT HOUR(CURTIME()), MINUTE(CURTIME()), SECOND(CURTIME()), 
+MICROSECOND(CURTIME(6));
+-- date, time
+SELECT DATE(NOW()), TIME(NOW());
+
+-- datediff, timediff
+SELECT DATEDIFF('2023-05-31', '2023-02-27'),
+		 TIMEDIFF('17:07:11', '13:06:10');
+		 
+-- 
