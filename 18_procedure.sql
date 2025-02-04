@@ -167,3 +167,56 @@ SET @sum_result = 0;
 CALL calculateSumUpTo(10,@sum_result);
 SELECT @sum_result;
 
+
+-- (8) 예외 처리
+
+-- 프로시저 생성
+delimiter //
+CREATE PROCEDURE divideNumbers(IN numberator DOUBLE, IN denominator DOUBLE, OUT result DOUBLE)
+BEGIN 
+	DECLARE division_by_zero CONDITION FOR SQLSTATE '45000';
+	
+	DECLARE exit handler FOR division_by_zero
+	BEGIN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = '0으로 나눌 수 없습니다';
+	END;
+	
+	if denominator = 0 then
+		SIGNAL division_by_zero;
+	ELSE 
+		SET result = numberator / denominator;
+	END if;
+	
+END //  
+delimiter ;
+
+-- 프로시저 호출
+CALL divideNumbers(10,2,@result);
+SELECT @result;
+CALL divideNumbers(10,0,@result);
+
+
+-- function 생성
+delimiter //
+CREATE FUNCTION getAnnualSalary(id VARCHAR(3))
+RETURNS DECIMAL(15,2)
+DETERMINISTIC 
+
+BEGIN
+	DECLARE monthly_salary DECIMAL(10,2);
+	DECLARE annual_salary DECIMAL(15,2);
+	
+	SELECT salary INTO monthly_salary
+		FROM employee 
+		WHERE emp_id = id;
+		
+		SET annual_salary = monthly_salary * 12;
+		
+		return annual_salary;
+END//
+delimiter ;
+
+SELECT 
+		   emp_name
+	   , getAnnualSalary(emp_id) AS annual_salary
+ FROM employee;
