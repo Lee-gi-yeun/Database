@@ -1,0 +1,5 @@
+mariadb root 비번
+
+mariadb
+
+tcp 3307
